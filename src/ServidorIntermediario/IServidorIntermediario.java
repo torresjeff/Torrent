@@ -5,7 +5,9 @@
  */
 package ServidorIntermediario;
 
+import Utils.InfoArchivo;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -13,5 +15,6 @@ import java.rmi.Remote;
  */
 public interface IServidorIntermediario extends Remote
 {
-    
+    public InfoArchivo BuscarArchivo(String nombre) throws RemoteException;
+    public boolean RegistrarServidorContenido(InfoArchivo infoArchivo) throws RemoteException;
 }
