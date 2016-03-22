@@ -5,8 +5,10 @@
  */
 package ServidorIntermediario;
 
+import Utils.Directorio;
 import Utils.ManejadorArchivos;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,13 +23,17 @@ public class ServidorIntermediario
     {
         try {
             System.out.println("server");
+            Directorio directorio = new Directorio();
             
             
+            LocateRegistry.createRegistry(8080);
             
             ManejadorArchivos.GenerarHash("directorio.bin");
             
             ServidorIntermediarioImplementacion servidor = new
-                    ServidorIntermediarioImplementacion("rmi://localhost:8080"+"/ServidorIntermediario");
+                    ServidorIntermediarioImplementacion("rmi://localhost:8080/ServidorIntermediario", directorio);
+            
+            System.out.println("termino servidor");
             
             /*try {
             //Serializar

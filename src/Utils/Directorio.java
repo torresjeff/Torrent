@@ -29,6 +29,12 @@ public class Directorio implements Serializable
         listaArchivos.add(info);
     }
 
+    public ArrayList<InfoArchivo> getListaArchivos() {
+        return listaArchivos;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "Directorio{" + "listaArchivos=" + listaArchivos + '}';
