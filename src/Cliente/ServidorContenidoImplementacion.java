@@ -30,6 +30,7 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
    }
    public void CompartirArchivo(String nombre, int parte, int partes) throws RemoteException
    { 
-        ManejadorArchivos.DividirArchivo(nombre, partes);    
+        ManejadorArchivos.DividirArchivo(nombre, partes); 
+        
    } 
 }
