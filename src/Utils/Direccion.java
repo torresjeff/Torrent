@@ -5,10 +5,27 @@
  */
 package Utils;
 
+import java.io.Serializable;
+
 /**
  *
  * @author manuela
  */
-public class Direccion {
+public class Direccion implements Serializable
+{
+    public Direccion(String ip, int puerto)
+    {
+        this.ip = ip;
+        this.puerto = puerto;
+    }
+    
+    public String ip;
+    public int puerto;
+
+    @Override
+    public String toString() {
+        return "Direccion{" + "ip=" + ip + ", puerto=" + puerto + '}';
+    }
+    
     
 }
