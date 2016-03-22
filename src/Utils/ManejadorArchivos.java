@@ -7,10 +7,15 @@ package Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,24 +37,24 @@ public class ManejadorArchivos
         try
         {
             inputStream = new FileInputStream(inputFile);
-        while (fileSize > 0)
-        {
-            if (fileSize <= readLength)
+            while (fileSize > 0)
             {
-                readLength = fileSize;
-            }
-            byteChunkPart = new byte[readLength];
-            read = inputStream.read(byteChunkPart, 0, readLength);
-            fileSize -= read;
-            assert (read == byteChunkPart.length);
-            nChunks++;
-            newFileName = nombre + ".part"
-                    + Integer.toString(nChunks - 1);
-            filePart = new FileOutputStream(new File(newFileName));
-            filePart.write(byteChunkPart);
-            filePart.flush();
-            filePart.close();
-            byteChunkPart = null;
+                if (fileSize <= readLength)
+                {
+                    readLength = fileSize;
+                }
+                byteChunkPart = new byte[readLength];
+                read = inputStream.read(byteChunkPart, 0, readLength);
+                fileSize -= read;
+                assert (read == byteChunkPart.length);
+                nChunks++;
+                newFileName = nombre + ".part"
+                        + Integer.toString(nChunks - 1);
+                filePart = new FileOutputStream(new File(newFileName));
+                filePart.write(byteChunkPart);
+                filePart.flush();
+                filePart.close();
+                byteChunkPart = null;
                 filePart = null;
             }
             inputStream.close();
@@ -97,8 +102,41 @@ public class ManejadorArchivos
         }
     }
     
-    public static void GenerarHash(String nombre)
+    public static String GenerarHash(String nombre)
     {
+        StringBuffer sb = new StringBuffer();
         
+        FileInputStream fis = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            fis = new FileInputStream("directorio.bin");
+            byte[] dataBytes = new byte[1024];
+            int nread = 0;
+            while ((nread = fis.read(dataBytes)) != -1)
+            {
+                md.update(dataBytes, 0, nread);
+            }
+            
+            byte[] mdbytes = md.digest();
+            
+            for (int i = 0; i < mdbytes.length; i++) {
+                sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+            }  
+            System.out.println("Hash para " + nombre + ": " + sb.toString());
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManejadorArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManejadorArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(ManejadorArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fis.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ManejadorArchivos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return sb.toString();
     }
 }
