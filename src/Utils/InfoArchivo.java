@@ -5,10 +5,27 @@
  */
 package Utils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  *
  * @author manuela
  */
-public class InfoArchivo {
+public class InfoArchivo implements Serializable
+{
+    public InfoArchivo()
+    {
+        servidoresContenido = new ArrayList<>();
+    }
+    public String hash;
+    public String nombre;
+    public ArrayList<Direccion> servidoresContenido;
+
+    @Override
+    public String toString() {
+        return "InfoArchivo{" + "hash=" + hash + ", nombre=" + nombre + ", servidoresContenido=" + servidoresContenido + '}';
+    }
+    
     
 }
