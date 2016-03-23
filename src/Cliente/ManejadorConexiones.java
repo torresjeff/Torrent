@@ -24,9 +24,6 @@ public class ManejadorConexiones implements Runnable {
 		try {
 			inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-			
-			String clientMessage = inFromClient.readLine();
-			System.out.println("Client message: " + clientMessage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

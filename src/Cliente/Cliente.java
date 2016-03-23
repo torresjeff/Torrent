@@ -28,6 +28,9 @@ public class Cliente
 {
     public static void main(String[] args)
     {
+       ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones();
+       new Thread(conexiones).start();
+       
       try
       {  
         InputStreamReader reader = new InputStreamReader(System.in);

@@ -7,7 +7,11 @@ package Cliente;
 
 import ServidorIntermediario.ServidorIntermediarioImplementacion;
 import Utils.ManejadorArchivos;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.*;
@@ -30,9 +34,29 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
             Logger.getLogger(ServidorIntermediarioImplementacion.class.getName()).log(Level.SEVERE, null, ex);
         }
    }
-   public void CompartirArchivo(String nombre, int parte, int partes) throws RemoteException
+   public void CompartirArchivo(String hash, int parte, int partes) throws RemoteException
    { 
-        ManejadorArchivos.DividirArchivo(nombre, partes); 
+        
+        
+        File folder = new File("");
+        for (final File fileEntry : folder.listFiles())
+        {
+            if (fileEntry.isDirectory())
+            {
+                //Si es un directorio
+            }
+            else //Si es un archivo
+            {
+                String fileName = fileEntry.getName();
+                String hashLocal = ManejadorArchivos.GenerarHash(fileName);
+                System.out.println(fileEntry.getName() + " hash: " + hashLocal);
+                
+                if (hash.equals(hashLocal))
+                {
+                    ManejadorArchivos.DividirArchivo(fileName, partes);
+                }
+            }
+        }
         
    }
 }
