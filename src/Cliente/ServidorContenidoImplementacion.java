@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.*;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +20,8 @@ import java.util.logging.Logger;
  * @author sebastiangracia
  */
 public class ServidorContenidoImplementacion extends UnicastRemoteObject implements IServidorContenido{
-   public  ServidorContenidoImplementacion(String nombre) throws RemoteException
+   
+    public  ServidorContenidoImplementacion(String nombre) throws RemoteException
    {
        super();
        try {
@@ -32,5 +34,5 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
    { 
         ManejadorArchivos.DividirArchivo(nombre, partes); 
         
-   } 
+   }
 }
