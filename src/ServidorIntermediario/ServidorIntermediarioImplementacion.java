@@ -5,11 +5,16 @@
  */
 package ServidorIntermediario;
 
+import Utils.Directorio;
 import Utils.InfoArchivo;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,9 +24,14 @@ import java.util.logging.Logger;
  */
 public class ServidorIntermediarioImplementacion extends UnicastRemoteObject implements IServidorIntermediario
 {
-    ServidorIntermediarioImplementacion(String nombre) throws RemoteException
+    private Directorio directorio;
+    private String nombre;
+    ServidorIntermediarioImplementacion(String nombre, Directorio directorio) throws RemoteException
     {
         super();
+        
+        this.nombre = nombre;
+        this.directorio = directorio;
         
         try {
             Naming.rebind(nombre, this);
@@ -32,14 +42,46 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
     
     @Override
     public InfoArchivo BuscarArchivo(String nombre) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return new InfoArchivo();
+        System.out.println("BuscarArchivo: \"" + nombre + "\"");
+        ArrayList<InfoArchivo> archivos = directorio.getListaArchivos();
+        InfoArchivo archivo = null;
+        
+        for (InfoArchivo ia : archivos)
+        {
+            if (ia.nombre.equals(nombre))
+            {
+                archivo = ia;
+                System.out.println(ia);
+                break;
+            }
+        }
+        
+        System.out.println(archivo == null ? "Archivo no encontrado" : "Archivo encontrado");
+        return archivo;
     }
 
     @Override
     public boolean RegistrarServidorContenido(InfoArchivo infoArchivo) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return true;
+        directorio.agregarArchivo(infoArchivo);
+        boolean success = true;
+        
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream("directorio.bin");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(directorio);
+            out.close();
+            fileOut.close();
+            //System.out.println("Archivo serializado guardado en \"directorio.bin\"");
+        }
+        catch(IOException i)
+        {
+            success = false;
+            i.printStackTrace();
+        }
+        
+        System.out.println(directorio);
+        return success;
     }
     
 }
