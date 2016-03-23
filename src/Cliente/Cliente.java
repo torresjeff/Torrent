@@ -28,7 +28,8 @@ public class Cliente
 {
     public static void main(String[] args)
     {
-      try{  
+      try
+      {  
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader in = new BufferedReader(reader);
 
@@ -46,14 +47,11 @@ public class Cliente
             switch(opcion)
             {
              case 1:
-                 System.out.println("Ingrese el nombre del archivo");
-                 String nombreArch = in.readLine();
-
-                      
-                      InfoArchivo infoArch = servidor.BuscarArchivo(nombreArch);
-                      System.out.println(infoArch);
-
-                 break;
+                System.out.println("Ingrese el nombre del archivo");
+                String nombreArch = in.readLine();
+                InfoArchivo infoArch = servidor.BuscarArchivo(nombreArch);
+                System.out.println(infoArch);
+                break;
              case 2:
                 System.out.print("Ingrese el nombre del archivo a registrar: ");
                 String nombreArchR = in.readLine();
@@ -68,9 +66,7 @@ public class Cliente
                
                 boolean respuesta = servidor.RegistrarServidorContenido(archivo);
                 System.out.println(respuesta? "Registrado satisfactoriamente": "Error al registrar archivo"); 
-                  
-
-                 break;
+                break;
              case 3:
                  System.out.println("OPCION 3: SALIR");
                  opcion = -1;

@@ -7,6 +7,9 @@ package ServidorIntermediario;
 
 import Utils.Directorio;
 import Utils.InfoArchivo;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -39,7 +42,7 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
     
     @Override
     public InfoArchivo BuscarArchivo(String nombre) {
-        System.out.println("BuscarArchivo: " + nombre);
+        System.out.println("BuscarArchivo: \"" + nombre + "\"");
         ArrayList<InfoArchivo> archivos = directorio.getListaArchivos();
         InfoArchivo archivo = null;
         
@@ -48,17 +51,37 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
             if (ia.nombre.equals(nombre))
             {
                 archivo = ia;
+                System.out.println(ia);
                 break;
             }
         }
         
+        System.out.println(archivo == null ? "Archivo no encontrado" : "Archivo encontrado");
         return archivo;
     }
 
     @Override
     public boolean RegistrarServidorContenido(InfoArchivo infoArchivo) {
-        System.out.println("RegistrarServidorContenido: " + infoArchivo);
-        return true;
+        directorio.agregarArchivo(infoArchivo);
+        boolean success = true;
+        
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream("directorio.bin");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(directorio);
+            out.close();
+            fileOut.close();
+            //System.out.println("Archivo serializado guardado en \"directorio.bin\"");
+        }
+        catch(IOException i)
+        {
+            success = false;
+            i.printStackTrace();
+        }
+        
+        System.out.println(directorio);
+        return success;
     }
     
 }
