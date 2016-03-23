@@ -7,6 +7,10 @@ package ServidorIntermediario;
 
 import Utils.Directorio;
 import Utils.ManejadorArchivos;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.logging.Level;
@@ -18,22 +22,51 @@ import java.util.logging.Logger;
  */
 public class ServidorIntermediario
 {
+    public static void CrearDirectorio(Directorio directorio)
+    {
+        try
+        {
+            FileInputStream fileIn = new FileInputStream("directorio.bin");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            directorio = (Directorio) in.readObject();
+            in.close();
+            fileIn.close();
+            
+            System.out.println(directorio);
+        } catch(IOException i)
+        {
+            i.printStackTrace();
+            return;
+        } catch(ClassNotFoundException c)
+        {
+            System.out.println("Directorio class not found");
+            c.printStackTrace();
+            return;
+        }
+    }
     
     public static void main(String[] args)
     {
-        try {
-            System.out.println("server");
+        try
+        {
             Directorio directorio = new Directorio();
             
+            //CrearDirectorio(directorio);
+            
+            FileInputStream fileIn = new FileInputStream("directorio.bin");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            directorio = (Directorio) in.readObject();
+            in.close();
+            fileIn.close();
+            
+            System.out.println(directorio);
             
             LocateRegistry.createRegistry(8080);
             
             ManejadorArchivos.GenerarHash("directorio.bin");
             
             ServidorIntermediarioImplementacion servidor = new
-                    ServidorIntermediarioImplementacion("rmi://localhost:8080/ServidorIntermediario", directorio);
-            
-            System.out.println("termino servidor");
+                    ServidorIntermediarioImplementacion("rmi://192.168.0.7:8080/ServidorIntermediario", directorio);
             
             /*try {
             //Serializar
@@ -91,6 +124,12 @@ public class ServidorIntermediario
             Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
             }*/
         } catch (RemoteException ex) {
+            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
         }
         
