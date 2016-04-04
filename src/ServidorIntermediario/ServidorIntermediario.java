@@ -66,7 +66,7 @@ public class ServidorIntermediario
             
             System.out.println(directorio);
             
-            LocateRegistry.createRegistry(8080);
+            LocateRegistry.createRegistry(puerto);
             
             ManejadorArchivos.GenerarHash("directorio.bin");
             
