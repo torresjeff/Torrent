@@ -27,6 +27,7 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
     public  ServidorContenidoImplementacion(String nombre) throws RemoteException
    {
        super();
+       puertosEnUso = new ArrayList<>();
        try {
             Naming.rebind(nombre, this);
         } catch (MalformedURLException ex) {
