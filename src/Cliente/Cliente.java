@@ -83,6 +83,8 @@ public class Cliente
             
         }
         
+        ManejadorArchivos.UnirArchivo(archivo.nombre, partes);
+        
     }
     
     
