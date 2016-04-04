@@ -37,7 +37,8 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
    public void CompartirArchivo(String hash, int parte, int partes) throws RemoteException
    { 
         String nombreArchivo = null;
-        File folder = new File("compartidos/");
+        String carpetaCompartidos = "compartidos/";
+        File folder = new File(carpetaCompartidos);
         for (File fileEntry : folder.listFiles())
         {
             if (fileEntry.isDirectory())
@@ -47,7 +48,7 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
             else //Si es un archivo
             {
                 String fileName = fileEntry.getName();
-                String hashLocal = ManejadorArchivos.GenerarHash(fileName);
+                String hashLocal = ManejadorArchivos.GenerarHash(carpetaCompartidos+fileName);
                 //System.out.println(fileEntry.getName() + " hash: " + hashLocal);
                 
                 if (hash.equals(hashLocal))
@@ -62,7 +63,7 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
         
         if (nombreArchivo != null)
         {
-            ManejadorArchivos.DividirArchivo(nombreArchivo, partes);
+            ManejadorArchivos.DividirArchivo(carpetaCompartidos+nombreArchivo, partes);
             //ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones(8081);
             //new Thread(conexiones).start();
             return;
