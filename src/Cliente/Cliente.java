@@ -54,7 +54,17 @@ public class Cliente
                 InputStream is = client.getInputStream();
                 FileOutputStream fos = new FileOutputStream(archivo.nombre+".part"+partesDescargadas);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
-                int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                int bytesRead, current = 0;
+                bytesRead = is.read(mybytearray,0,mybytearray.length);
+                current = bytesRead;
+                
+                do
+                {
+                    bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
+                    if (bytesRead >= 0)
+                        current += bytesRead;
+                } while (bytesRead >= 0);
+                
                 bos.write(mybytearray, 0, bytesRead);
                 bos.close();
                 client.close();
