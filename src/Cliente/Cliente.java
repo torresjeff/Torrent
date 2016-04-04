@@ -31,11 +31,15 @@ import java.util.logging.Logger;
  */
 public class Cliente
 {
-    public static void DescargarArchivo(InfoArchivo archivo)
+    static final String IP_SERVIDOR = "192.168.0.7";
+    static final int PUERTO_SERVIDOR = 8080;
+    
+    public static void DescargarArchivo(InfoArchivo archivo, IServidorIntermediario servidorIntermediario)
     {
         int partesDescargadas = 0;
         int partes = archivo.servidoresContenido.size();
         ArrayList<Direccion> servidoresContenido = archivo.servidoresContenido;
+        String carpetaDescarga = "compartidos/";
         
         while (partesDescargadas < partes)
         {
@@ -50,9 +54,10 @@ public class Cliente
                 Socket client = new Socket(ipServidor, puertoServidor);
                 System.out.println("Conexion realizada");
                 
+                System.out.println("Descargando " + archivo.nombre + ": parte " + (partesDescargadas+1) + " de " + partesDescargadas);
                 byte[] mybytearray = new byte[tamanoParte];
                 InputStream is = client.getInputStream();
-                FileOutputStream fos = new FileOutputStream(archivo.nombre+".part"+partesDescargadas);
+                FileOutputStream fos = new FileOutputStream(carpetaDescarga+archivo.nombre+".part"+partesDescargadas);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
                 int bytesRead, current = 0;
                 bytesRead = is.read(mybytearray,0,mybytearray.length);
@@ -83,17 +88,31 @@ public class Cliente
             
         }
         
-        ManejadorArchivos.UnirArchivo(archivo.nombre, partes);
+        ManejadorArchivos.UnirArchivo(carpetaDescarga+archivo.nombre, partes);
+        
+        InputStreamReader reader = new InputStreamReader(System.in);
+        BufferedReader in = new BufferedReader(reader);
+        
+        System.out.println("Archivo descargado.");
+        
+        try {
+            System.out.println("Para registrarse como servidor de contenido debe:");
+            System.out.print("Ingresar direccion ip: ");
+            String ip = in.readLine();
+            System.out.print("Ingresar puerto para descarga de este archivo: ");
+            int puerto = Integer.parseInt(in.readLine());
+            archivo.servidoresContenido.add(new Direccion(ip, puerto));
+            servidorIntermediario.RegistrarServidorContenido(archivo);
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }
     
     
     public static void main(String[] args)
     {
-       
-       
-       
-       
       try
       {  
         InputStreamReader reader = new InputStreamReader(System.in);
@@ -102,13 +121,13 @@ public class Cliente
         String direccionIp = "192.168.0.7"; // Pc manu
         //String direccionIp = "192.168.0.4"; // Pc lore
         //String direccionIp = "192.168.0.14"; // Pc sebas
-        String ipServidor = "192.168.0.7";
-        int puerto = 8080;
-        LocateRegistry.createRegistry(puerto);
-        ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorContenido");
+        //String IP_SERVIDOR = "192.168.0.7";
+        //int PUERTO_SERVIDOR = 8080;
+        LocateRegistry.createRegistry(PUERTO_SERVIDOR);
+        ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://"+direccionIp+":"+PUERTO_SERVIDOR+"/ServidorContenido");
         
         IServidorIntermediario servidor =
-                              (IServidorIntermediario) Naming.lookup("//"+ipServidor+":"+puerto+"/ServidorIntermediario");
+                              (IServidorIntermediario) Naming.lookup("//"+IP_SERVIDOR+":"+PUERTO_SERVIDOR+"/ServidorIntermediario");
                               //(IServidorIntermediario) Naming.lookup("//127.0.0.1:8080/ServidorIntermediario");
         
         int opcion = -1;
@@ -134,7 +153,7 @@ public class Cliente
                 else
                 {
                     System.out.println(infoArch);
-                    DescargarArchivo(infoArch);
+                    DescargarArchivo(infoArch, servidor);
                 }
                 
                 break;

@@ -74,26 +74,17 @@ public class ServidorIntermediario
                     ServidorIntermediarioImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorIntermediario", directorio);
                     //ServidorIntermediarioImplementacion("rmi://127.0.0.1:8080/ServidorIntermediario", directorio);
             
-            /*try {
-            //Serializar
-            /*InfoArchivo infoArchivo = new InfoArchivo();
-            infoArchivo.nombre = "limon.mp3";
-            infoArchivo.hash = "fdas938fd";
-            infoArchivo.servidoresContenido.add(new Direccion("192.168.0.1", 8080));
-            Directorio directorio = new Directorio();
-            directorio.agregarArchivo(infoArchivo);
-            try
-            {
-            FileOutputStream fileOut = new FileOutputStream("directorio.bin");
+            
+            //Directorio directorio = new Directorio();
+            
+            
+            /*FileOutputStream fileOut = new FileOutputStream("directorio.bin");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(directorio);
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved in directorio.bin");
-            }catch(IOException i)
-            {
-            i.printStackTrace();
-            }*/
+            System.out.printf("Serialized data is saved in directorio.bin");*/
+            
             
             //Deserializar
             /*try
