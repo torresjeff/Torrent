@@ -49,6 +49,11 @@ public class ServidorIntermediario
     {
         try
         {
+            String direccionIp = "192.168.0.7"; // Pc manu
+            //String direccionIp = "192.168.0.6"; // Pc lore
+            //String direccionIp = "192.168.0.14"; // Pc sebas
+            int puerto = 8080;
+            
             Directorio directorio = new Directorio();
             
             //CrearDirectorio(directorio);
@@ -66,8 +71,8 @@ public class ServidorIntermediario
             ManejadorArchivos.GenerarHash("directorio.bin");
             
             ServidorIntermediarioImplementacion servidor = new
-                    //ServidorIntermediarioImplementacion("rmi://192.168.0.7:8080/ServidorIntermediario", directorio);
-                    ServidorIntermediarioImplementacion("rmi://127.0.0.1:8080/ServidorIntermediario", directorio);
+                    ServidorIntermediarioImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorIntermediario", directorio);
+                    //ServidorIntermediarioImplementacion("rmi://127.0.0.1:8080/ServidorIntermediario", directorio);
             
             /*try {
             //Serializar

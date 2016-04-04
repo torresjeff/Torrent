@@ -1,0 +1,67 @@
+// ------------------------- 1RA PARTE (25 Minutos) ------------------------- //
+Planeacion vs ejecucion
+* Estimaciones y metrica (Juancho):
+	- horas reales invertidas/horas totales
+	- numero de revisiones y errores
+	- Github: # de commits, punch card, code frequency (Gracia)
+
+* Plan de riesgos:
+	- Se hizo el plan de riesgos, pero la verdad no se utilizo.
+
+* Plataforma (Villafrades)
+	- Dirigo a Android 4.2+ (referenciar encuesta, hicimos un promedio entre android 4.1 y 4.3)
+	- Android SDK: compila el codigo en un paquete Android (APK).
+
+* Ciclo de vida (juancho)
+	- Metodologia Agil? SCRUM/XP?
+	- Roles
+	- Revisiones
+
+* Herramientas (Manuela)
+	- Drive/Project/Android Studio.
+	- Mencionar herramientas que pensabamos utilizar pero que no terminamos utilizando.
+	- DigitalOcean
+
+Proceso de calidad y documentacion (Gracia)
+*Plan de control de calidad
+	- Que hace el plan, para que sirve, que lo compone
+	- Que se revisa? para Lineas Base, Requerimientos, Arquitectura, etc.
+
+*Pruebas de la aplicacion (Cesar)
+	- Plantilla de pruebas
+	- Solo hicimos pruebas para Android (no para PHP [servidor])
+
+*Documentacion (Jeffrey)
+	- Javadoc
+
+
+Manejo de versiones (Jeffrey)
+* Plan de administración de configuración
+	- Versiones de documentos
+	- Versiones de software: Git, como pensabamos nombrar los branches? Como se hizo realmente. Como se manejan los pull requests.
+	- Como enumeramos las versiones
+
+
+Aplicacion 
+*Casos de uso (Gracia)
+	- Si se hizo lo que nos propusimos?
+	- Avance: lo que se logro hacer y lo que no (requerimientos/casos de uso)
+
+*Arquitectura (Villafrades/Cesar)
+	- MVC, Cliente-Servidor, formato JSON, arquitectura REST
+	- Vista fisica
+	- Diagrama de clases
+	- Base de datos
+	
+*Dificultades tecnicas (?)
+	- No se programo pensando en la arquitectura. Mencionar lo que dijo profito (los arquitectos hacen la arquitectura y los programadores no la utilizan)
+	- Tiempo
+	- Capacitacion
+
+* Arbol de navegabilidad (Manuela)
+
+
+* Lecciones aprendidas (Gracia)
+
+// ------------------------- 2DA PARTE ------------------------- //
+Demo y ejecucion (Jeff)

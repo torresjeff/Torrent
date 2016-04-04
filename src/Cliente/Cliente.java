@@ -64,17 +64,17 @@ public class Cliente
         InputStreamReader reader = new InputStreamReader(System.in);
         BufferedReader in = new BufferedReader(reader);
         
-        int puerto = 8082;
+        String direccionIp = "192.168.0.7"; // Pc manu
+        //String direccionIp = "192.168.0.6"; // Pc lore
+        //String direccionIp = "192.168.0.14"; // Pc sebas
+        String ipServidor = "192.168.0.7";
+        int puerto = 8080;
         LocateRegistry.createRegistry(puerto);
-        ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://127.0.0.1:"+puerto+"/ServidorContenido");
-        
-
-        
-        
+        ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorContenido");
         
         IServidorIntermediario servidor =
-                              //(IServidorIntermediario) Naming.lookup("//192.168.0.7:8080/ServidorIntermediario");
-                              (IServidorIntermediario) Naming.lookup("//127.0.0.1:8080/ServidorIntermediario");
+                              (IServidorIntermediario) Naming.lookup("//"+ipServidor+":"+puerto+"/ServidorIntermediario");
+                              //(IServidorIntermediario) Naming.lookup("//127.0.0.1:8080/ServidorIntermediario");
         
         int opcion = -1;
         
