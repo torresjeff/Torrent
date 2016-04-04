@@ -17,10 +17,20 @@ import java.util.logging.Logger;
  */
 public class ThreadEscuchaConexiones implements Runnable {
 
+    private int puerto;
+
+    public ThreadEscuchaConexiones(int puerto)
+    {
+        this.puerto = puerto;
+    }
+    
+    
+    
     @Override
     public void run() {
         try {
-            ServerSocket server = new ServerSocket(8080);
+            //ServerSocket server = new ServerSocket(8080);
+            ServerSocket server = new ServerSocket(puerto);
             while(true)
             {
                 Socket socket= server.accept();

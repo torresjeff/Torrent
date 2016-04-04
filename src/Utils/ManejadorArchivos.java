@@ -109,7 +109,7 @@ public class ManejadorArchivos
         FileInputStream fis = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            fis = new FileInputStream("directorio.bin");
+            fis = new FileInputStream(nombre);
             byte[] dataBytes = new byte[1024];
             int nread = 0;
             while ((nread = fis.read(dataBytes)) != -1)

@@ -36,10 +36,9 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
    }
    public void CompartirArchivo(String hash, int parte, int partes) throws RemoteException
    { 
-        
-        
-        File folder = new File("");
-        for (final File fileEntry : folder.listFiles())
+        String nombreArchivo = null;
+        File folder = new File(".");
+        for (File fileEntry : folder.listFiles())
         {
             if (fileEntry.isDirectory())
             {
@@ -49,13 +48,24 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
             {
                 String fileName = fileEntry.getName();
                 String hashLocal = ManejadorArchivos.GenerarHash(fileName);
-                System.out.println(fileEntry.getName() + " hash: " + hashLocal);
+                //System.out.println(fileEntry.getName() + " hash: " + hashLocal);
                 
                 if (hash.equals(hashLocal))
                 {
-                    ManejadorArchivos.DividirArchivo(fileName, partes);
+                    nombreArchivo = fileName;
+                    System.out.println("Se encontro el archivo: \"" + nombreArchivo + "\"");
+                    
+                    break;
                 }
             }
+        }
+        
+        if (nombreArchivo != null)
+        {
+            ManejadorArchivos.DividirArchivo(nombreArchivo, partes);
+            //ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones(8081);
+            //new Thread(conexiones).start();
+            return;
         }
         
    }

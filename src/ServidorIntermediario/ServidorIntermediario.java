@@ -66,7 +66,8 @@ public class ServidorIntermediario
             ManejadorArchivos.GenerarHash("directorio.bin");
             
             ServidorIntermediarioImplementacion servidor = new
-                    ServidorIntermediarioImplementacion("rmi://192.168.0.7:8080/ServidorIntermediario", directorio);
+                    //ServidorIntermediarioImplementacion("rmi://192.168.0.7:8080/ServidorIntermediario", directorio);
+                    ServidorIntermediarioImplementacion("rmi://127.0.0.1:8080/ServidorIntermediario", directorio);
             
             /*try {
             //Serializar
