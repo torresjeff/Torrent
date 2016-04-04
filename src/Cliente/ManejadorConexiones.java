@@ -10,7 +10,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
-
+/**
+ * Thread por donde se envia el archivo.
+ * @author manuela
+ */
 public class ManejadorConexiones implements Runnable {
 
         private String nombreArchivo;

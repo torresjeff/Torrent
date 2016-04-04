@@ -26,6 +26,7 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
 {
     private Directorio directorio;
     private String nombre;
+    
     ServidorIntermediarioImplementacion(String nombre, Directorio directorio) throws RemoteException
     {
         super();
@@ -40,12 +41,19 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
         }
     }
     
+    /**
+     * El servidor busca el la informacion del archivo (hash y las maquinas que comparten el).
+     * @param nombre nombre del archivo que se quiere descargar
+     * @return informacion del archivo que queremos descargar.
+     * @throws RemoteException 
+     */
     @Override
     public InfoArchivo BuscarArchivo(String nombre) {
         System.out.println("BuscarArchivo: \"" + nombre + "\"");
         ArrayList<InfoArchivo> archivos = directorio.getListaArchivos();
         InfoArchivo archivo = null;
         
+        //Buscamos si el archivo existe en el directorio.
         for (InfoArchivo ia : archivos)
         {
             if (ia.nombre.equalsIgnoreCase(nombre))
@@ -57,16 +65,24 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
         }
         
         System.out.println(archivo == null ? "Archivo no encontrado" : "Archivo encontrado");
-        return archivo;
+        return archivo; // Retornamos los datos del archivo si lo encontramos
     }
 
+    
+    /**
+     * Registra la maquina que comparte el archivo.
+     * @param infoArchivo informacion del archivo a registrar
+     * @return true si fue satisfactorio, false si no.
+     * @throws RemoteException 
+     */
     @Override
     public boolean RegistrarServidorContenido(InfoArchivo infoArchivo) {
-        directorio.agregarArchivo(infoArchivo);
+        directorio.agregarArchivo(infoArchivo); //Registramos el archivo
         boolean success = true;
         
         try
         {
+            //Actualizamos y serializamos el directorio
             FileOutputStream fileOut = new FileOutputStream("directorio.bin");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(directorio);

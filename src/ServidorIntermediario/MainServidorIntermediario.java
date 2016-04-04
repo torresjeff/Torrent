@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author manuela
  */
-public class ServidorIntermediario
+public class MainServidorIntermediario
 {
     public static void CrearDirectorio(Directorio directorio)
     {
@@ -58,6 +58,7 @@ public class ServidorIntermediario
             
             //CrearDirectorio(directorio);
             
+            //Leemos/deserializamos los datos del directorio donde estan guardados todos los datos de los archivos.
             FileInputStream fileIn = new FileInputStream("directorio.bin");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             directorio = (Directorio) in.readObject();
@@ -68,16 +69,12 @@ public class ServidorIntermediario
             
             LocateRegistry.createRegistry(puerto);
             
-            ManejadorArchivos.GenerarHash("directorio.bin");
-            
+            //Creamos un objeto para escuchar invocaciones remotas de metodos (registrar y buscar archivo)
             ServidorIntermediarioImplementacion servidor = new
                     ServidorIntermediarioImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorIntermediario", directorio);
-                    //ServidorIntermediarioImplementacion("rmi://127.0.0.1:8080/ServidorIntermediario", directorio);
+                    
             
-            
-            //Directorio directorio = new Directorio();
-            
-            
+            //Serializacion
             /*FileOutputStream fileOut = new FileOutputStream("directorio.bin");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(directorio);
@@ -85,49 +82,14 @@ public class ServidorIntermediario
             fileOut.close();
             System.out.printf("Serialized data is saved in directorio.bin");*/
             
-            
-            //Deserializar
-            /*try
-            {
-            Directorio directorio = new Directorio();
-            FileInputStream fileIn = new FileInputStream("directorio.bin");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            directorio = (Directorio) in.readObject();
-            in.close();
-            fileIn.close();
-            
-            System.out.println(directorio);
-            }catch(IOException i)
-            {
-            i.printStackTrace();
-            return;
-            }catch(ClassNotFoundException c)
-            {
-            System.out.println("Directorio class not found");
-            c.printStackTrace();
-            return;
-            }*/
-            /*ServerSocket server = new ServerSocket(8080);
-            while (true)
-            {
-            Socket socket = server.accept();
-            
-            ManejadorConexiones manejador = new ManejadorConexiones(socket);
-            new Thread(manejador).start();
-            }*/
-            
-            
-            /*} catch (IOException ex) {
-            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
         } catch (RemoteException ex) {
-            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainServidorIntermediario.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
