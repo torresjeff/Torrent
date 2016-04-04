@@ -60,12 +60,13 @@ public class Cliente
                 
                 do
                 {
+                    
                     bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
                     if (bytesRead >= 0)
                         current += bytesRead;
-                } while (bytesRead >= 0);
+                } while (bytesRead > 0);
                 
-                bos.write(mybytearray, 0, bytesRead);
+                bos.write(mybytearray, 0, current);
                 bos.close();
                 client.close();
                 //TODO: aumentar solo cuando se descarga una parte del archivo
