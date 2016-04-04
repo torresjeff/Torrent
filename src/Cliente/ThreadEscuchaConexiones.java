@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Thread para escuchar constantemente las conexiones en nuestros puertos y compartir archivos.
  * @author sebastiangracia
  */
 public class ThreadEscuchaConexiones implements Runnable {
