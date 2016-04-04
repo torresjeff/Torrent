@@ -80,6 +80,7 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
             i.printStackTrace();
         }
         
+        System.out.println("Archivo registrado");
         System.out.println(directorio);
         return success;
     }

@@ -35,11 +35,14 @@ public class ThreadEscuchaConexiones implements Runnable {
             //ServerSocket server = new ServerSocket(8080);
             ServerSocket server = new ServerSocket(puerto);
             
-            Socket socket = server.accept();
-            System.out.println("Conexion realizada con " + socket.getRemoteSocketAddress());
-            ManejadorConexiones manejador = new ManejadorConexiones(nombreArchivo, parte, partes, socket);
-            new Thread(manejador).start();
-
+            while (true)
+            {
+                Socket socket = server.accept();
+                System.out.println("Conexion realizada con " + socket.getRemoteSocketAddress());
+                ManejadorConexiones manejador = new ManejadorConexiones(nombreArchivo, parte, partes, socket);
+                new Thread(manejador).start();
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(ThreadEscuchaConexiones.class.getName()).log(Level.SEVERE, null, ex);
         }

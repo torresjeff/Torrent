@@ -8,14 +8,11 @@ package Cliente;
 import ServidorIntermediario.ServidorIntermediarioImplementacion;
 import Utils.ManejadorArchivos;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.*;
-import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +22,8 @@ import java.util.logging.Logger;
  */
 public class ServidorContenidoImplementacion extends UnicastRemoteObject implements IServidorContenido{
    
+    private static ArrayList<Integer> puertosEnUso;
+    
     public  ServidorContenidoImplementacion(String nombre) throws RemoteException
    {
        super();
@@ -64,9 +63,14 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
         if (nombreArchivo != null)
         {
             ManejadorArchivos.DividirArchivo(carpetaCompartidos+nombreArchivo, partes);
-            ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones(carpetaCompartidos+nombreArchivo, parte,
+            if (!puertosEnUso.contains(puerto))
+            {
+                puertosEnUso.add(puerto);
+                ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones(carpetaCompartidos+nombreArchivo, parte,
                     partes, puerto);
-            new Thread(conexiones).start();
+                new Thread(conexiones).start();
+            }
+            
             File file = new File(carpetaCompartidos+nombreArchivo);
             return (int)file.length();
         }

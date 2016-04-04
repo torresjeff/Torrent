@@ -54,7 +54,7 @@ public class Cliente
                 Socket client = new Socket(ipServidor, puertoServidor);
                 System.out.println("Conexion realizada");
                 
-                System.out.println("Descargando " + archivo.nombre + ": parte " + (partesDescargadas+1) + " de " + partesDescargadas);
+                System.out.println("Descargando " + archivo.nombre + ": parte " + (partesDescargadas+1) + " de " + partes);
                 byte[] mybytearray = new byte[tamanoParte];
                 InputStream is = client.getInputStream();
                 FileOutputStream fos = new FileOutputStream(carpetaDescarga+archivo.nombre+".part"+partesDescargadas);
@@ -123,8 +123,9 @@ public class Cliente
         //String direccionIp = "192.168.0.14"; // Pc sebas
         //String IP_SERVIDOR = "192.168.0.7";
         //int PUERTO_SERVIDOR = 8080;
-        LocateRegistry.createRegistry(PUERTO_SERVIDOR);
-        ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://"+direccionIp+":"+PUERTO_SERVIDOR+"/ServidorContenido");
+        int puertoContenido = 8080;
+        LocateRegistry.createRegistry(puertoContenido);
+        ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://"+direccionIp+":"+puertoContenido+"/ServidorContenido");
         
         IServidorIntermediario servidor =
                               (IServidorIntermediario) Naming.lookup("//"+IP_SERVIDOR+":"+PUERTO_SERVIDOR+"/ServidorIntermediario");
