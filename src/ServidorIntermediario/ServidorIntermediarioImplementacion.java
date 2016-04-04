@@ -48,7 +48,7 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
         
         for (InfoArchivo ia : archivos)
         {
-            if (ia.nombre.equals(nombre))
+            if (ia.nombre.equalsIgnoreCase(nombre))
             {
                 archivo = ia;
                 System.out.println(ia);

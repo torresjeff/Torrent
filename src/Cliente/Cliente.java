@@ -40,6 +40,8 @@ public class Cliente
                                                                                     +"/ServidorContenido");
                 servidorContenido.CompartirArchivo(archivo.hash, partesDescargadas, partes);
                 
+                //TODO: aumentar solo cuando se descarga una parte del archivo
+                partes++;
             } catch (NotBoundException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {
