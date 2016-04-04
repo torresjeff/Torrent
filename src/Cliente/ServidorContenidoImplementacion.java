@@ -37,7 +37,7 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
    public void CompartirArchivo(String hash, int parte, int partes) throws RemoteException
    { 
         String nombreArchivo = null;
-        File folder = new File(".");
+        File folder = new File("compartidos/");
         for (File fileEntry : folder.listFiles())
         {
             if (fileEntry.isDirectory())

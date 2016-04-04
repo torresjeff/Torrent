@@ -67,7 +67,7 @@ public class Cliente
         String direccionIp = "192.168.0.7"; // Pc manu
         //String direccionIp = "192.168.0.6"; // Pc lore
         //String direccionIp = "192.168.0.14"; // Pc sebas
-        String ipServidor = "192.168.0.7";
+        String ipServidor = "192.168.0.14";
         int puerto = 8080;
         LocateRegistry.createRegistry(puerto);
         ServidorContenidoImplementacion servidorContenido = new ServidorContenidoImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorContenido");
@@ -111,7 +111,7 @@ public class Cliente
                 System.out.print("Ingrese el puerto: ");
                 int puertoDescarga = Integer.parseInt(in.readLine());
                 InfoArchivo archivo = new InfoArchivo();
-                archivo.hash = ManejadorArchivos.GenerarHash(nombreArchR);
+                archivo.hash = ManejadorArchivos.GenerarHash("compartidos/"+nombreArchR);
                 archivo.nombre = nombreArchR;
                 archivo.servidoresContenido.add(new Direccion(ip, puertoDescarga));
                
