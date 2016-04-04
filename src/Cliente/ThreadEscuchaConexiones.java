@@ -18,13 +18,16 @@ import java.util.logging.Logger;
 public class ThreadEscuchaConexiones implements Runnable {
 
     private int puerto;
+    private String nombreArchivo;
+    private int parte, partes;
 
-    public ThreadEscuchaConexiones(int puerto)
-    {
+    public ThreadEscuchaConexiones(String nombreArchivo, int parte, int partes, int puerto) {
         this.puerto = puerto;
+        this.nombreArchivo = nombreArchivo;
+        this.parte = parte;
+        this.partes = partes;
     }
-    
-    
+
     
     @Override
     public void run() {
@@ -34,7 +37,7 @@ public class ThreadEscuchaConexiones implements Runnable {
             
             Socket socket = server.accept();
             System.out.println("Conexion realizada con " + socket.getRemoteSocketAddress());
-            ManejadorConexiones manejador = new ManejadorConexiones(socket);
+            ManejadorConexiones manejador = new ManejadorConexiones(nombreArchivo, parte, partes, socket);
             new Thread(manejador).start();
 
         } catch (IOException ex) {

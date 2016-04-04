@@ -26,7 +26,26 @@ public class Directorio implements Serializable
     
     public void agregarArchivo(InfoArchivo info)
     {
-        listaArchivos.add(info);
+        boolean found = false;
+        for (InfoArchivo arch : listaArchivos)
+        {
+            if (arch.hash.equals(info.hash))
+            {
+                int sizeServidores = info.servidoresContenido.size();
+                if (sizeServidores > 0)
+                {
+                    arch.servidoresContenido.add(info.servidoresContenido.get(sizeServidores-1));
+                }
+                
+                found = true;
+            }
+        }
+        
+        if (!found)
+        {
+            listaArchivos.add(info);
+        }
+        
     }
 
     public ArrayList<InfoArchivo> getListaArchivos() {

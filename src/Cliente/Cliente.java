@@ -9,13 +9,12 @@ import ServidorIntermediario.IServidorIntermediario;
 import Utils.Direccion;
 import Utils.InfoArchivo;
 import Utils.ManejadorArchivos;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.rmi.Naming;
@@ -45,16 +44,19 @@ public class Cliente
                 int puertoServidor = servidoresContenido.get(partesDescargadas).puerto;
                 IServidorContenido servidorContenido = (IServidorContenido) Naming.lookup("//"+ipServidor+":"+8080
                                                                                     +"/ServidorContenido");
-                servidorContenido.CompartirArchivo(archivo.hash, partesDescargadas, partes, puertoServidor);
+                int tamanoParte = servidorContenido.CompartirArchivo(archivo.hash, partesDescargadas, partes, puertoServidor);
                 
                 System.out.println("Conectandose a " + ipServidor + " en el puerto " + puertoServidor);
                 Socket client = new Socket(ipServidor, puertoServidor);
                 System.out.println("Conexion realizada");
                 
-                DataOutputStream outToServer = new DataOutputStream(client.getOutputStream());
-                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                outToServer.writeBytes("hola servidor" + '\n');
-
+                byte[] mybytearray = new byte[tamanoParte];
+                InputStream is = client.getInputStream();
+                FileOutputStream fos = new FileOutputStream(archivo.nombre+".part"+partesDescargadas);
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                bos.write(mybytearray, 0, bytesRead);
+                bos.close();
                 client.close();
                 //TODO: aumentar solo cuando se descarga una parte del archivo
                 partesDescargadas++;
@@ -85,7 +87,7 @@ public class Cliente
         BufferedReader in = new BufferedReader(reader);
         
         String direccionIp = "192.168.0.7"; // Pc manu
-        //String direccionIp = "192.168.0.6"; // Pc lore
+        //String direccionIp = "192.168.0.4"; // Pc lore
         //String direccionIp = "192.168.0.14"; // Pc sebas
         String ipServidor = "192.168.0.7";
         int puerto = 8080;
