@@ -48,7 +48,7 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
         
         for (InfoArchivo ia : archivos)
         {
-            if (ia.nombre.equals(nombre))
+            if (ia.nombre.equalsIgnoreCase(nombre))
             {
                 archivo = ia;
                 System.out.println(ia);
@@ -80,6 +80,7 @@ public class ServidorIntermediarioImplementacion extends UnicastRemoteObject imp
             i.printStackTrace();
         }
         
+        System.out.println("Archivo registrado");
         System.out.println(directorio);
         return success;
     }

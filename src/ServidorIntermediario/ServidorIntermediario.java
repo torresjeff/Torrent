@@ -49,6 +49,11 @@ public class ServidorIntermediario
     {
         try
         {
+            String direccionIp = "192.168.0.7"; // Pc manu
+            //String direccionIp = "192.168.0.4"; // Pc lore
+            //String direccionIp = "192.168.0.14"; // Pc sebas
+            int puerto = 8080;
+            
             Directorio directorio = new Directorio();
             
             //CrearDirectorio(directorio);
@@ -61,33 +66,25 @@ public class ServidorIntermediario
             
             System.out.println(directorio);
             
-            LocateRegistry.createRegistry(8080);
+            LocateRegistry.createRegistry(puerto);
             
             ManejadorArchivos.GenerarHash("directorio.bin");
             
             ServidorIntermediarioImplementacion servidor = new
-                    ServidorIntermediarioImplementacion("rmi://192.168.0.7:8080/ServidorIntermediario", directorio);
+                    ServidorIntermediarioImplementacion("rmi://"+direccionIp+":"+puerto+"/ServidorIntermediario", directorio);
+                    //ServidorIntermediarioImplementacion("rmi://127.0.0.1:8080/ServidorIntermediario", directorio);
             
-            /*try {
-            //Serializar
-            /*InfoArchivo infoArchivo = new InfoArchivo();
-            infoArchivo.nombre = "limon.mp3";
-            infoArchivo.hash = "fdas938fd";
-            infoArchivo.servidoresContenido.add(new Direccion("192.168.0.1", 8080));
-            Directorio directorio = new Directorio();
-            directorio.agregarArchivo(infoArchivo);
-            try
-            {
-            FileOutputStream fileOut = new FileOutputStream("directorio.bin");
+            
+            //Directorio directorio = new Directorio();
+            
+            
+            /*FileOutputStream fileOut = new FileOutputStream("directorio.bin");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(directorio);
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved in directorio.bin");
-            }catch(IOException i)
-            {
-            i.printStackTrace();
-            }*/
+            System.out.printf("Serialized data is saved in directorio.bin");*/
+            
             
             //Deserializar
             /*try

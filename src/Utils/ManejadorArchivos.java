@@ -10,6 +10,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -94,6 +97,8 @@ public class ManejadorArchivos
                 fileBytes = null;
                 fis.close();
                 fis = null;
+                
+                Files.deleteIfExists(FileSystems.getDefault().getPath("compartidos", file.getName()));
             }
             fos.close();
             fos = null;
@@ -109,7 +114,7 @@ public class ManejadorArchivos
         FileInputStream fis = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            fis = new FileInputStream("directorio.bin");
+            fis = new FileInputStream(nombre);
             byte[] dataBytes = new byte[1024];
             int nread = 0;
             while ((nread = fis.read(dataBytes)) != -1)
