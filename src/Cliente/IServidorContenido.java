@@ -12,5 +12,5 @@ import java.rmi.RemoteException;
  * @author sebastiangracia
  */
 public interface IServidorContenido extends Remote {
-    public void CompartirArchivo(String hash, int parte, int partes) throws RemoteException;
+    public void CompartirArchivo(String hash, int parte, int partes, int puerto) throws RemoteException;
 }

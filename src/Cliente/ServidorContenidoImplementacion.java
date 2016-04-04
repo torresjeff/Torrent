@@ -34,7 +34,7 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
             Logger.getLogger(ServidorIntermediarioImplementacion.class.getName()).log(Level.SEVERE, null, ex);
         }
    }
-   public void CompartirArchivo(String hash, int parte, int partes) throws RemoteException
+   public void CompartirArchivo(String hash, int parte, int partes, int puerto) throws RemoteException
    {
         String nombreArchivo = null;
         String carpetaCompartidos = "compartidos/";
@@ -64,8 +64,8 @@ public class ServidorContenidoImplementacion extends UnicastRemoteObject impleme
         if (nombreArchivo != null)
         {
             ManejadorArchivos.DividirArchivo(carpetaCompartidos+nombreArchivo, partes);
-            //ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones(8081);
-            //new Thread(conexiones).start();
+            ThreadEscuchaConexiones conexiones = new ThreadEscuchaConexiones(puerto);
+            new Thread(conexiones).start();
             return;
         }
         

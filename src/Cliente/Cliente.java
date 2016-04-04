@@ -10,9 +10,14 @@ import Utils.Direccion;
 import Utils.InfoArchivo;
 import Utils.ManejadorArchivos;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -36,10 +41,21 @@ public class Cliente
         while (partesDescargadas < partes)
         {
             try {
-                IServidorContenido servidorContenido = (IServidorContenido) Naming.lookup("//"+servidoresContenido.get(0).ip+":"+servidoresContenido.get(0).puerto
+                String ipServidor = servidoresContenido.get(partesDescargadas).ip;
+                int puertoServidor = servidoresContenido.get(partesDescargadas).puerto;
+                IServidorContenido servidorContenido = (IServidorContenido) Naming.lookup("//"+ipServidor+":"+8080
                                                                                     +"/ServidorContenido");
-                servidorContenido.CompartirArchivo(archivo.hash, partesDescargadas, partes);
+                servidorContenido.CompartirArchivo(archivo.hash, partesDescargadas, partes, puertoServidor);
                 
+                System.out.println("Conectandose a " + ipServidor + " en el puerto " + puertoServidor);
+                Socket client = new Socket(ipServidor, puertoServidor);
+                System.out.println("Conexion realizada");
+                
+                DataOutputStream outToServer = new DataOutputStream(client.getOutputStream());
+                BufferedReader inFromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                outToServer.writeBytes("hola servidor" + '\n');
+
+                client.close();
                 //TODO: aumentar solo cuando se descarga una parte del archivo
                 partesDescargadas++;
             } catch (NotBoundException ex) {
@@ -47,6 +63,8 @@ public class Cliente
             } catch (MalformedURLException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RemoteException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
             

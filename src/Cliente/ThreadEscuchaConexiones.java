@@ -31,13 +31,12 @@ public class ThreadEscuchaConexiones implements Runnable {
         try {
             //ServerSocket server = new ServerSocket(8080);
             ServerSocket server = new ServerSocket(puerto);
-            while(true)
-            {
-                Socket socket= server.accept();
-                ManejadorConexiones manejador = new ManejadorConexiones(socket);
-                new Thread(manejador).start();
-            }
             
+            Socket socket = server.accept();
+            System.out.println("Conexion realizada con " + socket.getRemoteSocketAddress());
+            ManejadorConexiones manejador = new ManejadorConexiones(socket);
+            new Thread(manejador).start();
+
         } catch (IOException ex) {
             Logger.getLogger(ThreadEscuchaConexiones.class.getName()).log(Level.SEVERE, null, ex);
         }

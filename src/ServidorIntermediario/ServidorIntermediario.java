@@ -50,7 +50,7 @@ public class ServidorIntermediario
         try
         {
             String direccionIp = "192.168.0.7"; // Pc manu
-            //String direccionIp = "192.168.0.6"; // Pc lore
+            //String direccionIp = "192.168.0.4"; // Pc lore
             //String direccionIp = "192.168.0.14"; // Pc sebas
             int puerto = 8080;
             
